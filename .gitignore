@@ -1,0 +1,49 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Virtual Environment
+venv/
+env/
+ENV/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Project specific
+data/datasets/*.json
+data/datasets/*.csv
+data/datasets/*_statistics*.txt
+
+# Keep only specific data files
+!data/datasets/student_emotion_dataset_80k_balanced.json
+!data/datasets/student_emotion_dataset_80k_balanced.csv
+!data/datasets/student_emotion_dataset_test_20k_balanced.json
+!data/datasets/student_emotion_dataset_test_20k_balanced.csv
+!data/datasets/training_dataset_statistics_balanced.txt
+!data/datasets/test_dataset_statistics_balanced.txt
+
+# OS specific
+.DS_Store
+Thumbs.db 

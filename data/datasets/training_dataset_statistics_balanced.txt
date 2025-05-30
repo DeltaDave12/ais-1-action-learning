@@ -1,0 +1,56 @@
+Dataset Statistics
+=================
+
+Total Records: 80000
+Unique Students: 20000
+Unique Sessions: 20000
+
+Emotion Distribution (Perfect Balance Check)
+------------------------------------------
+Distribution Status: BALANCED
+anxious: 8000 (10.00%)
+confident: 8000 (10.00%)
+confused: 8000 (10.00%)
+curious: 8000 (10.00%)
+discouraged: 8000 (10.00%)
+excited: 8000 (10.00%)
+frustrated: 8000 (10.00%)
+neutral: 8000 (10.00%)
+overwhelmed: 8000 (10.00%)
+satisfied: 8000 (10.00%)
+Min count: 8000, Max count: 8000
+
+Subject Distribution
+--------------------
+biology: 10040 (12.55%)
+chemistry: 9844 (12.31%)
+english: 9884 (12.35%)
+history: 10424 (13.03%)
+mathematics: 10048 (12.56%)
+physics: 10280 (12.85%)
+programming: 9504 (11.88%)
+science: 9976 (12.47%)
+
+Urgency Level Distribution
+--------------------------
+high: 32000 (40.00%)
+low: 40000 (50.00%)
+medium: 8000 (10.00%)
+
+Difficulty Level Distribution
+-----------------------------
+advanced: 26804 (33.51%)
+beginner: 26712 (33.39%)
+intermediate: 26484 (33.11%)
+
+Scenario Distribution
+---------------------
+advanced_exploration: 9932 (12.41%)
+concept_clarification: 10108 (12.63%)
+homework_help: 10192 (12.74%)
+new_topic: 10288 (12.86%)
+project_work: 9920 (12.40%)
+remedial_help: 10064 (12.58%)
+review_session: 9928 (12.41%)
+test_prep: 9568 (11.96%)
+
