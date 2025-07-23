@@ -41,8 +41,8 @@ async def get_next_session_id(user_id: str) -> int:
 
 
 # Remove phantom container and header at the very top, and make main block transparent
-"""
 st.markdown(
+    """
     <style>
     .block-container {
         padding-top: 0rem !important;
@@ -61,8 +61,8 @@ st.markdown(
     footer {visibility: hidden;}
     #MainMenu {visibility: hidden;}
     </style>
+    """
 , unsafe_allow_html=True)
-"""
 
 # --- UI States ---
 if "current_topic" not in st.session_state:
