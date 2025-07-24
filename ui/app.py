@@ -15,6 +15,7 @@ import subprocess
 import os
 from doc_input_utils import get_doc_content
 from topic_auto_summary import should_trigger_topic_summary, get_last_n_topic_messages
+from answer_references import get_answer_references
 
 # Hide the video placeholder from webrtc_streamer (audio-only mode)
 st.markdown(
@@ -244,9 +245,23 @@ st.subheader(f"Chat - {st.session_state.current_conv}")
 
 messages = st.session_state.conversations[st.session_state.current_conv]
 
+# Find the latest assistant message
+latest_assistant_idx = None
+latest_assistant_content = None
+for idx in range(len(messages)-1, -1, -1):
+    if messages[idx]["role"] == "assistant":
+        latest_assistant_idx = idx
+        latest_assistant_content = messages[idx]["content"]
+        break
+
 for idx, message in enumerate(messages):
     with st.chat_message(message["role"]):
         st.markdown(message["content"])
+        # Only display references for the most recent assistant message
+        if message["role"] == "assistant" and idx == latest_assistant_idx and message.get("references"):
+            st.markdown("**References:**")
+            for title, url in message["references"]:
+                st.markdown(f"- [{title}]({url})")
 
 # --- Document Upload for Chat Input (per conversation) ---
 uploader_key = f"uploader_{st.session_state.current_conv}"
@@ -356,12 +371,17 @@ if prompt:
             encouragement = get_encouragement(result['emotion'])
             response = f"**Emotion:** {result['emotion']}\n\n**Strategy:** {display_strategy}\n\n**Answer:** {result['answer']}\n\n---\n{encouragement}"
             print("LENGTH OF RESPONSE:", len(response))
+            # Fetch references for the answer and display immediately
+            search_query = f"{prompt} {result['answer']}"
+            references = get_answer_references(search_query)
             st.markdown(response)
-    messages.append({"role": "assistant", "content": response})
+            if references:
+                st.markdown("**References:**")
+                for title, url in references:
+                    st.markdown(f"- [{title}]({url})")
+    messages.append({"role": "assistant", "content": response, "references": references})
     st.session_state.last_user_prompt = prompt
-    # Only clear the text area for this conversation after sending
     st.session_state[doc_input_key] = ""
-
     # --- Auto-summary after N prompts on same topic ---
     N_TOPIC_SUMMARY = 7
     if should_trigger_topic_summary(messages, st.session_state.topic_model, threshold=0.4, n=N_TOPIC_SUMMARY):
@@ -371,7 +391,8 @@ if prompt:
             summary_prompt = f"Summarize the following conversation:\n{text_to_summarize}\nSummary:"
             result = run_inference(summary_prompt)
             summary = result['answer']
-            messages.append({"role": "assistant", "content": f"**Summary of last {N_TOPIC_SUMMARY} prompts on this topic:**\n\n{summary}"})
+            summary_references = get_answer_references(summary)
+            messages.append({"role": "assistant", "content": f"**Summary of last {N_TOPIC_SUMMARY} prompts on this topic:**\n\n{summary}", "references": summary_references})
 
 # Save back messages to state (actually it's mutable so not strictly necessary)
 st.session_state.conversations[st.session_state.current_conv] = messages
