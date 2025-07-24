@@ -14,6 +14,7 @@ from speech_utils import transcribe_audio, synthesize_speech
 import subprocess
 import os
 from doc_input_utils import get_doc_content
+from topic_auto_summary import should_trigger_topic_summary, get_last_n_topic_messages
 
 # Hide the video placeholder from webrtc_streamer (audio-only mode)
 st.markdown(
@@ -360,6 +361,17 @@ if prompt:
     st.session_state.last_user_prompt = prompt
     # Only clear the text area for this conversation after sending
     st.session_state[doc_input_key] = ""
+
+    # --- Auto-summary after N prompts on same topic ---
+    N_TOPIC_SUMMARY = 7
+    if should_trigger_topic_summary(messages, st.session_state.topic_model, threshold=0.4, n=N_TOPIC_SUMMARY):
+        topic_msgs = get_last_n_topic_messages(messages, st.session_state.topic_model, threshold=0.4, n=N_TOPIC_SUMMARY)
+        if topic_msgs:
+            text_to_summarize = "\n".join([m["content"] for m in topic_msgs])
+            summary_prompt = f"Summarize the following conversation:\n{text_to_summarize}\nSummary:"
+            result = run_inference(summary_prompt)
+            summary = result['answer']
+            messages.append({"role": "assistant", "content": f"**Summary of last {N_TOPIC_SUMMARY} prompts on this topic:**\n\n{summary}"})
 
 # Save back messages to state (actually it's mutable so not strictly necessary)
 st.session_state.conversations[st.session_state.current_conv] = messages
