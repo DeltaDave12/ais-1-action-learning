@@ -86,12 +86,21 @@ def run_inference(user_prompt):
         return_full_text=False
     )
 
-    mistral_prompt = (
-        f"User prompt: {user_prompt}\n"
-        f"Emotion: {emotion}\n"
-        f"Content decision: Use {strategy}\n"
-        "Please provide a comprehensive answer."
-    )
+    # Use conversational context if present
+    if user_prompt.strip().startswith("User:") and "Assistant:" in user_prompt:
+        mistral_prompt = (
+            f"{user_prompt}\n"
+            f"Emotion: {emotion}\n"
+            f"Content decision: Use {strategy}\n"
+            "Please provide a comprehensive answer."
+        )
+    else:
+        mistral_prompt = (
+            f"User prompt: {user_prompt}\n"
+            f"Emotion: {emotion}\n"
+            f"Content decision: Use {strategy}\n"
+            "Please provide a comprehensive answer."
+        )
     answer = mistral_pipe(mistral_prompt)[0]['generated_text']
 
     # Free memory

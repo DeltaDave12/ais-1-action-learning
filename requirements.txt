@@ -7,3 +7,10 @@ pandas
 scikit-learn
 altair
 protobuf==3.20.3
+pyotp
+qrcode[pil]
+Pillow
+fpdf
+streamlit-audio-recorder
+streamlit-webrtc
+pyttsx3
