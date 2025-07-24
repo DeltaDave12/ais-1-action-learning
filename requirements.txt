@@ -11,6 +11,9 @@ pyotp
 qrcode[pil]
 Pillow
 fpdf
+<<<<<<< HEAD
 streamlit-audio-recorder
 streamlit-webrtc
 pyttsx3
+=======
+>>>>>>> 2d0754f84886a797b0946859fc543d4717de4de9

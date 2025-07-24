@@ -258,6 +258,20 @@ astroid = ["astroid (>=2,<4)"]
 test = ["astroid (>=2,<4)", "pytest", "pytest-cov", "pytest-xdist"]
 
 [[package]]
+name = "asyncio"
+version = "3.4.3"
+description = "reference implementation of PEP 3156"
+optional = false
+python-versions = "*"
+groups = ["main"]
+files = [
+    {file = "asyncio-3.4.3-cp33-none-win32.whl", hash = "sha256:b62c9157d36187eca799c378e572c969f0da87cd5fc42ca372d92cdb06e7e1de"},
+    {file = "asyncio-3.4.3-cp33-none-win_amd64.whl", hash = "sha256:c46a87b48213d7464f22d9a497b9eef8c1928b68320a2fa94240f969f6fec08c"},
+    {file = "asyncio-3.4.3-py3-none-any.whl", hash = "sha256:c4d18b22701821de07bd6aea8b53d21449ec0ec5680645e5317062ea21817d2d"},
+    {file = "asyncio-3.4.3.tar.gz", hash = "sha256:83360ff8bc97980e4ff25c964c7bd3923d333d177aa4f7fb736b019f26c7cb41"},
+]
+
+[[package]]
 name = "attrs"
 version = "25.3.0"
 description = "Classes Without Boilerplate"
@@ -3504,6 +3518,7 @@ files = [
 windows-terminal = ["colorama (>=0.4.6)"]
 
 [[package]]
+<<<<<<< HEAD
 name = "pyobjc"
 version = "11.1"
 description = "Python<->ObjC Interoperability Module"
@@ -7095,6 +7110,8 @@ pyobjc-core = ">=11.1"
 pyobjc-framework-Cocoa = ">=11.1"
 
 [[package]]
+=======
+>>>>>>> 2d0754f84886a797b0946859fc543d4717de4de9
 name = "pyotp"
 version = "2.9.0"
 description = "Python One Time Password Library"
@@ -8798,4 +8815,8 @@ cffi = ["cffi (>=1.11)"]
 [metadata]
 lock-version = "2.1"
 python-versions = ">=3.11,<4.0"
+<<<<<<< HEAD
 content-hash = "a20fb580ccf9cd8f8dde8c0087771ee80b9561bfabfd66fa2a41534e3a0f2680"
+=======
+content-hash = "6d18bbdd05ded5508e6bd73228674f7bd52488cd931b1bfec67df331b108c2ef"
+>>>>>>> 2d0754f84886a797b0946859fc543d4717de4de9
