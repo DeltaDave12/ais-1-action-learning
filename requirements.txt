@@ -1,19 +1,14 @@
 streamlit
 sentence-transformers
-torch
 transformers
+python-docx
+pyttsx3
+streamlit-webrtc
+qrcode
+fpdf
+joblib
+scikit-learn
 numpy
 pandas
-scikit-learn
-altair
-protobuf==3.20.3
-pyotp
-qrcode[pil]
-Pillow
-fpdf
-<<<<<<< HEAD
-streamlit-audio-recorder
-streamlit-webrtc
-pyttsx3
-=======
->>>>>>> 2d0754f84886a797b0946859fc543d4717de4de9
+torch
+av
