@@ -1,5 +1,7 @@
 from fpdf import FPDF
 
+
+# Export a conversation to PDF
 def export_conversation_to_pdf(conversation, filename):
     pdf = FPDF()
     pdf.add_page()
@@ -27,4 +29,4 @@ def export_conversation_to_pdf(conversation, filename):
             pdf.multi_cell(0, 8, line)
         pdf.ln(4)
 
-    pdf.output(filename) 
+    pdf.output(filename)

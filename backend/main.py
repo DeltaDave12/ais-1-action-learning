@@ -8,6 +8,7 @@ models.Base.metadata.create_all(bind=database.engine)
 
 app = FastAPI()
 
+
 def get_db():
     db = database.SessionLocal()
     try:
@@ -16,8 +17,11 @@ def get_db():
         db.close()
 
 
-@app.post("/session_conversations/", response_model=schemas.SessionConversationOut)
-def create_session_conversation(conversation: schemas.SessionConversationCreate, db: Session = Depends(get_db)):
+@app.post("/session_conversations/",
+          response_model=schemas.SessionConversationOut)
+def create_session_conversation(
+        conversation: schemas.SessionConversationCreate,
+        db: Session = Depends(get_db)):
     db_entry = models.SessionConversation(**conversation.dict())
     db.add(db_entry)
     db.commit()
@@ -25,15 +29,26 @@ def create_session_conversation(conversation: schemas.SessionConversationCreate,
     return db_entry
 
 
-@app.get("/session_conversations/{conversation_id}", response_model=schemas.SessionConversationOut)
-def read_session_conversation(conversation_id: int, db: Session = Depends(get_db)):
-    conversation = db.query(models.SessionConversation).filter(models.SessionConversation.id == conversation_id).first()
+@app.get(
+    "/session_conversations/{conversation_id}",
+    response_model=schemas.SessionConversationOut,
+)
+def read_session_conversation(
+        conversation_id: int,
+        db: Session = Depends(get_db)):
+    conversation = (
+        db.query(models.SessionConversation)
+        .filter(models.SessionConversation.id == conversation_id)
+        .first()
+    )
     if conversation is None:
-        raise HTTPException(status_code=404, detail="SessionConversation not found")
+        raise HTTPException(status_code=404,
+                            detail="SessionConversation not found")
     return conversation
 
 
-@app.get("/session_conversations/", response_model=List[schemas.SessionConversationOut])
+@app.get("/session_conversations/",
+         response_model=List[schemas.SessionConversationOut])
 def read_session_conversations(
     skip: int = 0,
     limit: int = 100,
@@ -49,13 +64,23 @@ def read_session_conversations(
     return query.offset(skip).limit(limit).all()
 
 
-
-
-@app.put("/session_conversations/{conversation_id}", response_model=schemas.SessionConversationOut)
-def update_session_conversation(conversation_id: int, conversation_update: schemas.SessionConversationUpdate, db: Session = Depends(get_db)):
-    conversation = db.query(models.SessionConversation).filter(models.SessionConversation.id == conversation_id).first()
+@app.put(
+    "/session_conversations/{conversation_id}",
+    response_model=schemas.SessionConversationOut,
+)
+def update_session_conversation(
+    conversation_id: int,
+    conversation_update: schemas.SessionConversationUpdate,
+    db: Session = Depends(get_db),
+):
+    conversation = (
+        db.query(models.SessionConversation)
+        .filter(models.SessionConversation.id == conversation_id)
+        .first()
+    )
     if conversation is None:
-        raise HTTPException(status_code=404, detail="SessionConversation not found")
+        raise HTTPException(status_code=404,
+                            detail="SessionConversation not found")
     update_data = conversation_update.dict(exclude_unset=True)
     for key, value in update_data.items():
         setattr(conversation, key, value)
@@ -65,10 +90,17 @@ def update_session_conversation(conversation_id: int, conversation_update: schem
 
 
 @app.delete("/session_conversations/{conversation_id}")
-def delete_session_conversation(conversation_id: int, db: Session = Depends(get_db)):
-    conversation = db.query(models.SessionConversation).filter(models.SessionConversation.id == conversation_id).first()
+def delete_session_conversation(
+        conversation_id: int,
+        db: Session = Depends(get_db)):
+    conversation = (
+        db.query(models.SessionConversation)
+        .filter(models.SessionConversation.id == conversation_id)
+        .first()
+    )
     if conversation is None:
-        raise HTTPException(status_code=404, detail="SessionConversation not found")
+        raise HTTPException(status_code=404,
+                            detail="SessionConversation not found")
     db.delete(conversation)
     db.commit()
     return {"detail": "SessionConversation deleted"}

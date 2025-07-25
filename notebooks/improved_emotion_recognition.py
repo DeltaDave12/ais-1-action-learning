@@ -15,17 +15,18 @@ import math
 import matplotlib.pyplot as plt
 import time
 
-# Use non-interactive matplotlib if available
+# Try importing matplotlib with error handling
 try:
     import matplotlib
-    matplotlib.use("Agg")
+
+    matplotlib.use("Agg")  # Use non-interactive backend
     PLOTTING_AVAILABLE = True
 except ImportError as e:
     print(f"Warning: Could not import matplotlib: {e}")
     print("Visualization features will be disabled.")
     PLOTTING_AVAILABLE = False
 
-# Print GPU and PyTorch info
+# GPU Verification
 print("=" * 50)
 print("GPU Configuration")
 print("=" * 50)
@@ -34,10 +35,11 @@ print(f"CUDA available: {torch.cuda.is_available()}")
 if torch.cuda.is_available():
     print(f"CUDA device: {torch.cuda.get_device_name(0)}")
     print(f"Number of GPUs: {torch.cuda.device_count()}")
+    # Set default tensor type to cuda
     torch.set_default_tensor_type("torch.cuda.FloatTensor")
 print("=" * 50)
 
-# Set device for torch
+# Check for GPU availability
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 print(f"Using device: {device}")
 
@@ -49,7 +51,7 @@ if torch.cuda.is_available():
     torch.cuda.manual_seed_all(current_time)
 np.random.seed(current_time)
 
-# Path to main dataset
+# Default dataset path
 DEFAULT_DATASET_PATH = "data/datasets/student_emotion_dataset_80k_balanced.csv"
 
 
@@ -344,20 +346,26 @@ class ImprovedEmotionRecognitionModel:
 
     def advanced_training_setup(self, model, learning_rate=0.0001):
         """Enhanced training configuration"""
+        # Optimizer with better parameters
         optimizer = optim.AdamW(
             model.parameters(),
             lr=learning_rate,
-            weight_decay=0.01,
+            weight_decay=0.01,  # L2 regularization
             betas=(0.9, 0.999),
             eps=1e-8,
         )
+
+        # Cosine annealing scheduler with warm restarts
         scheduler = optim.lr_scheduler.CosineAnnealingWarmRestarts(
             optimizer,
-            T_0=10,
-            T_mult=2,
+            T_0=10,  # First restart after 10 epochs
+            T_mult=2,  # Double the restart interval
             eta_min=1e-6,
         )
+
+        # Focal Loss for better handling of class imbalance
         criterion = FocalLoss(alpha=1, gamma=2)
+
         return criterion, optimizer, scheduler
 
     def plot_metrics(
@@ -369,7 +377,9 @@ class ImprovedEmotionRecognitionModel:
             early_stop_epoch=None):
         if not PLOTTING_AVAILABLE:
             return
+
         plt.figure(figsize=(15, 5))
+
         # Plot loss
         plt.subplot(1, 3, 1)
         plt.plot(train_losses, label="Training Loss", linewidth=2)
@@ -385,6 +395,7 @@ class ImprovedEmotionRecognitionModel:
         plt.title("Loss Over Time")
         plt.legend()
         plt.grid(True, alpha=0.3)
+
         # Plot accuracy
         plt.subplot(1, 3, 2)
         plt.plot(train_accs, label="Training Accuracy", linewidth=2)
@@ -400,6 +411,7 @@ class ImprovedEmotionRecognitionModel:
         plt.title("Accuracy Over Time")
         plt.legend()
         plt.grid(True, alpha=0.3)
+
         # Plot learning rate
         plt.subplot(1, 3, 3)
         plt.plot(
@@ -413,6 +425,7 @@ class ImprovedEmotionRecognitionModel:
         plt.title("Learning Rate Schedule")
         plt.legend()
         plt.grid(True, alpha=0.3)
+
         plt.tight_layout()
         plt.savefig(
             "improved_training_metrics.png",

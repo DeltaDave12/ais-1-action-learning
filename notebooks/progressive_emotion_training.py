@@ -43,8 +43,8 @@ class ProgressiveEmotionTrainer:
         self.clean_df = pd.read_csv(
             "../data/datasets/student_emotion_dataset_80k_balanced.csv"
         )
-        print("   Clean dataset: {} samples".format(len(self.clean_df)))
-        print("   Emotion distribution:")
+        print(f"   Clean dataset: {len(self.clean_df)} samples")
+        print(f"   Emotion distribution:")
         print(self.clean_df["emotion"].value_counts(normalize=True).round(3))
 
         # Load noisy dataset
@@ -53,7 +53,7 @@ class ProgressiveEmotionTrainer:
             "../data/datasets/student_emotion_dataset_80k_noisy.csv"
         )
         print("   Noisy dataset: {} samples".format(len(self.noisy_df)))
-        print("   Emotion distribution:")
+        print(f"   Emotion distribution:")
         print(self.noisy_df["emotion"].value_counts(normalize=True).round(3))
 
         # Load test dataset
@@ -62,7 +62,7 @@ class ProgressiveEmotionTrainer:
             "../data/datasets/student_emotion_dataset_test_20k_balanced.csv"
         )
         print("   Test dataset: {} samples".format(len(self.test_df)))
-        print("   Emotion distribution:")
+        print(f"   Emotion distribution:")
         print(self.test_df["emotion"].value_counts(normalize=True).round(3))
 
         return True

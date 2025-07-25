@@ -1,10 +1,13 @@
 from sentence_transformers import util
 
+
 def count_consecutive_same_topic(messages, topic_model, threshold=0.4):
-    # Count how many consecutive user messages are on the same topic as the latest
+    # Count consecutive user messages on the same topic
     if not messages or len(messages) < 2:
         return 1
-    last_user_msg = messages[-1]["content"] if messages[-1]["role"] == "user" else None
+    last_user_msg = (
+        messages[-1]["content"] if messages[-1]["role"] == "user" else None
+    )
     if not last_user_msg:
         return 0
     count = 1
@@ -19,4 +22,4 @@ def count_consecutive_same_topic(messages, topic_model, threshold=0.4):
             count += 1
         else:
             break
-    return count 
+    return count
